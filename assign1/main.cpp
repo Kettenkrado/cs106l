@@ -19,15 +19,16 @@
 const std::string COURSES_OFFERED_PATH = "student_output/courses_offered.csv";
 const std::string COURSES_NOT_OFFERED_PATH = "student_output/courses_not_offered.csv";
 
+
 /**
  * Represents a course a student can take in ExploreCourses.
  * You must fill in the types of the fields in this struct.
  * Hint: Remember what types C++ streams work with?!
  */
 struct Course {
-  /* STUDENT TODO */ title;
-  /* STUDENT TODO */ number_of_units;
-  /* STUDENT TODO */ quarter;
+  std::string title;
+  std::string number_of_units;
+  std::string quarter;
 };
 
 /**
@@ -58,8 +59,21 @@ struct Course {
  * @param filename The name of the file to parse.
  * @param courses  A vector of courses to populate.
  */
-void parse_csv(std::string filename, std::vector<Course> courses) {
+void parse_csv(std::string filename, std::vector<Course>& courses) {
   /* (STUDENT TODO) Your code goes here... */
+  std::ifstream ifs(filename);
+  std::string courseInfo;
+  std::vector<std::string> splitedInfo;
+  Course course;
+
+  std::getline(ifs, courseInfo);
+  while (std::getline(ifs, courseInfo)) {
+    splitedInfo = split(courseInfo, ',');
+    course.title = splitedInfo.at(0);
+    course.number_of_units = splitedInfo.at(1);
+    course.quarter = splitedInfo.at(2);
+    courses.push_back(course);
+  }
 }
 
 /**
@@ -80,8 +94,22 @@ void parse_csv(std::string filename, std::vector<Course> courses) {
  * @param all_courses A vector of all courses gotten by calling `parse_csv`.
  *                    This vector will be modified by removing all offered courses.
  */
-void write_courses_offered(std::vector<Course> all_courses) {
+void write_courses_offered(std::vector<Course>& all_courses) {
   /* (STUDENT TODO) Your code goes here... */
+  std::vector<Course> offered_courses;
+  std::ofstream ofs(COURSES_OFFERED_PATH);
+  ofs << "Title,Number of Units,Quarter" << std::endl;
+
+  for (Course c: all_courses) {
+    if (c.quarter != "null") {
+      offered_courses.push_back(c);
+      ofs << c.title << ',' << c.number_of_units << ',' << c.quarter << std::endl;
+    }
+  } 
+
+  for (Course c: offered_courses) {
+    delete_elem_from_vector(all_courses, c);
+  }
 }
 
 /**
@@ -99,6 +127,12 @@ void write_courses_offered(std::vector<Course> all_courses) {
  */
 void write_courses_not_offered(std::vector<Course> unlisted_courses) {
   /* (STUDENT TODO) Your code goes here... */
+  std::ofstream ofs(COURSES_NOT_OFFERED_PATH);
+  ofs << "Title,Number of Units,Quarter" << std::endl;
+
+  for (Course c: unlisted_courses) {
+    ofs << c.title << ',' << c.number_of_units << ',' << c.quarter << std::endl;
+  }
 }
 
 int main() {
