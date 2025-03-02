@@ -13,8 +13,11 @@
 #include <set>
 #include <string>
 #include <unordered_set>
+#include <algorithm>
 
-std::string kYourName = "STUDENT TODO"; // Don't forget to change this!
+using namespace std;
+
+std::string kYourName = "Ivy Blossom"; // Don't forget to change this!
 
 /**
  * Takes in a file name and returns a set containing all of the applicant names as a set.
@@ -28,7 +31,37 @@ std::string kYourName = "STUDENT TODO"; // Don't forget to change this!
  * to also change the corresponding functions in `utils.h`.
  */
 std::set<std::string> get_applicants(std::string filename) {
-  // STUDENT TODO: Implement this function.
+  ifstream ifs(filename);
+  set<string> applicants;
+  string name;
+
+  while (getline(ifs, name)) {
+    applicants.insert(name);
+  }
+
+  return applicants;
+}
+
+/**
+ * Helper function of find_matches, calculate the initials of some student's name.
+ * 
+ * @param name  The name of some student.
+ * @return      A string of this student's initials.
+ */
+std::string calculate_initials(const std::string& name) {
+  std::string initials;
+  bool isLastName = false;
+
+  for (auto c: name) {
+    if (c == ' ') {
+      isLastName = true;
+    } else if (initials.empty() || isLastName) {
+      initials += c;
+      if (isLastName) break;
+    }
+  }
+
+  return initials;
 }
 
 /**
@@ -40,8 +73,49 @@ std::set<std::string> get_applicants(std::string filename) {
  * @return          A queue containing pointers to each matching name.
  */
 std::queue<const std::string*> find_matches(std::string name, std::set<std::string>& students) {
-  // STUDENT TODO: Implement this function.
+  std::queue<const std::string*> matches;
+  string initials = calculate_initials(name);
+  string candidate_initials;
+
+  for (const auto& candidate: students) {
+    candidate_initials = calculate_initials(candidate);
+    if (candidate_initials == initials) 
+      matches.push(&candidate);
+  }
+
+  return matches;
 }
+
+/**
+ * Calculate the similarity of two strings (here names) 
+ * by Levenshtein Distance.
+ * 
+ * @param s1  One name string.
+ * @param s2  Another name string.
+ * @return    The similarity between them.
+ */
+int levenshteinDistance(const std::string& s1, const std::string& s2) {
+  int m = s1.length();
+  int n = s2.length();
+  std::vector<std::vector<int>> dp(m + 1, std::vector<int>(n + 1));
+
+  for (int i = 0; i <= m; ++i) {
+      for (int j = 0; j <= n; ++j) {
+          if (i == 0) {
+              dp[i][j] = j;
+          } else if (j == 0) {
+              dp[i][j] = i;
+          } else {
+              dp[i][j] = std::min({dp[i - 1][j] + 1,        // delete
+                                   dp[i][j - 1] + 1,        // insert
+                                   dp[i - 1][j - 1] + (s1[i - 1] == s2[j - 1] ? 0 : 1)}); // constitute
+          }
+      }
+  }
+
+  return dp[m][n];
+}
+
 
 /**
  * Takes in a queue of pointers to possible matches and determines the one true match!
@@ -54,7 +128,21 @@ std::queue<const std::string*> find_matches(std::string name, std::set<std::stri
  *                Will return "NO MATCHES FOUND." if `matches` is empty.
  */
 std::string get_match(std::queue<const std::string*>& matches) {
-  // STUDENT TODO: Implement this function.
+  string best_match;
+  float similarity = 0;
+
+  while (!matches.empty()) {
+    string candidate = *(matches.front());
+    int distance = levenshteinDistance(kYourName, candidate);
+    float current_similarity = 1 - (float) distance / (float) max(kYourName.length(), candidate.length());
+    if (current_similarity > similarity) {
+      best_match = candidate;
+      similarity = current_similarity;
+    } matches.pop();
+  }
+
+  if (best_match.empty()) return "NO MATCHES FOUND.";
+  return best_match;
 }
 
 /* #### Please don't remove this line! #### */
