@@ -6,7 +6,7 @@
  *
  */
 
-#ifndef CLASS_H
+#ifndef CLASS_H 
 #define CLASS_H
 
 #include <iostream>
@@ -19,11 +19,10 @@ class Point {
   Point(double x, double y);
   // default constructor, set the point coordinate to (0, 0)
   Point();
-  ~Point();
 
   // Getter functions
-  double getHorizontal();
-  double getVertical();
+  double getHorizontal() const;
+  double getVertical() const;
 
   // Setter functions
   void setHorizontal(double x);
@@ -47,11 +46,10 @@ class Circle {
   // default constructor, set the circle to be a unit circle
   // with center at (0, 0) and radius being 1
   Circle();
-  ~Circle();
 
   // Getter functions
-  Point getCenter();
-  double getRadius();
+  Point getCenter() const;
+  double getRadius() const;
 
   // Setter functions
   void setCenter(double x, double y);
