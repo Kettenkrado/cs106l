@@ -76,6 +76,9 @@
     "utility": "cpp",
     "format": "cpp",
     "numbers": "cpp",
-    "span": "cpp"
+    "span": "cpp",
+    "chrono": "cpp",
+    "ranges": "cpp",
+    "cinttypes": "cpp"
   }
 }

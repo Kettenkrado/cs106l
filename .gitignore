@@ -30,10 +30,10 @@
 *.lib
 
 # Executables
-*.exe
+# *.exe
 *.out
 *.app
-main
+# main
 
 # Python
 __pycache__/
