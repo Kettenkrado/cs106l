@@ -9,8 +9,6 @@
 #ifndef CLASS_H 
 #define CLASS_H
 
-#include <iostream>
-
 class Point {
  private:
   double _x;

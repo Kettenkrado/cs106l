@@ -5,7 +5,14 @@ Make a Class
 ------------
 
 Q1. What’s const-correctness and why is it important?
-A1. TODO
+A1. It refers to using const correctly in C++ programming such that data in the program
+will not be modified by accident. It helps with the readability, security and compiler 
+optimization of the code and program.
 
 Q2. Is your class const-correct? How do you know?
-A2. TODO
+A2. Yes, my class is const-correct. I ensured this by:
+    - Declaring all member functions that do not modify the object's state as const. For example, in the Point class, the getHorizontal(), getVertical(), and distTo() functions are const. Similarly, in the Circle class, the getCenter(), getRadius(), and isOverlap() functions are const.
+    - Using const references for function parameters to prevent modification of passed objects. For instance, the distTo() and isOverlap() functions take const references as parameters.
+    - Ensuring that all member functions use the const keyword appropriately to prevent accidental modification of the object's state.
+
+By following these practices, I have made sure that the class interface is const-correct, which improves code readability, safety, and maintainability.

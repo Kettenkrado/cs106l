@@ -28,7 +28,7 @@ void Point::setVertical(double y) { _y = y; }
 
 double Point::distTo(const Point& another) const {
   return sqrt((_x - another.getHorizontal()) * (_x - another.getHorizontal()) +
-              (_y - another.getVertical() * _y - another.getVertical()));
+              (_y - another.getVertical()) * (_y - another.getVertical()));
 }
 
 Circle::Circle(double x, double y, double radius) {
