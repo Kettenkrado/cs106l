@@ -25,6 +25,27 @@ static bool notZero(char c)
   return c != '0';
 }
 
+std::string soundex(const std::string& s) {
+  std::string result, letters;
+
+  // extract every letter
+  std::copy_if(s.begin(), s.end(), std::back_inserter(result), ::isalpha);
+  char first = result[0];
+
+  std::transform(result.begin(), result.end(), result.begin(), soundexEncode);
+  auto last = std::unique(result.begin(), result.end());
+  result.erase(last, result.end());
+
+  result[0] = toupper(first);
+  std::copy_if(result.begin(), result.end(), std::back_inserter(letters), notZero);
+
+  std::string zeroPad = "0000";
+  letters += zeroPad;
+
+  return letters.substr(0, 4);
+}
+
+/*
 std::string soundex(const std::string& s)
 {
   std::string letters;
@@ -46,4 +67,4 @@ std::string soundex(const std::string& s)
   return no_zeros.substr(0, 4);
 
   return s;
-}
+}*/

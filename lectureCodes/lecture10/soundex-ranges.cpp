@@ -36,9 +36,11 @@ std::string soundexRanges(const std::string& s)
   std::ranges::unique_copy(v, std::back_inserter(encoded));
   encoded[0] = std::toupper(first);
 
-  return encoded 
-         | rv::filter(notZero)             // Get rid of zeros
-      // | rv::concat("0000")              // Ensure length >= 4 (C++26)
-         | rv::take(4)                     // Take first four
-         | std::ranges::to<std::string>(); // Convert to string
+  std::string x = encoded 
+          | rv::filter(notZero)             // Get rid of zeros
+       // | rv::concat("0000")              // Ensure length >= 4 (C++26)
+          | rv::take(4)                     // Take first four
+          | std::ranges::to<std::string>(); // Convert to string
+  
+  return (x + "0000").substr(0, 4);
 }
