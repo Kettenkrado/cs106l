@@ -80,5 +80,6 @@
     "chrono": "cpp",
     "ranges": "cpp",
     "cinttypes": "cpp"
-  }
+  },
+  "C_Cpp.errorSquiggles": "disabled"
 }
