@@ -1,5 +1,6 @@
 #include "class.h"
 #include <cmath>
+#include <stdexcept>
 
 #define LIST_INITIALIZATION 0
 
@@ -9,6 +10,9 @@ Circle::Circle(double x, double y, double radius) : _center(x, y), _radius(radiu
 #else
 
 Point::Point(double x, double y) {
+  if (!isValidCoordinate(x, y)) {
+    throw std::invalid_argument("Invalid coordinates");
+  }
   _x = x;
   _y = y;
 }
@@ -18,17 +22,19 @@ Point::Point() {
   _y = 0;
 }
 
-double Point::getHorizontal() const { return _x; }
+bool Point::isValidCoordinate(double x, double y) const {
+  // Assuming reasonable bounds for coordinates, e.g., within [-1e6, 1e6]
+  return (x >= -1e6 && x <= 1e6) && (y >= -1e6 && y <= 1e6);
+}
 
-double Point::getVertical() const { return _y; }
-
-void Point::setHorizontal(double x) { _x = x; }
-
-void Point::setVertical(double y) { _y = y; }
+double Point::getX() const { return _x; }
+double Point::getY() const { return _y; }
+void Point::setX(double x) { _x = x; }
+void Point::setY(double y) { _y = y; }
 
 double Point::distTo(const Point& another) const {
-  return sqrt((_x - another.getHorizontal()) * (_x - another.getHorizontal()) +
-              (_y - another.getVertical()) * (_y - another.getVertical()));
+  return sqrt((_x - another.getX()) * (_x - another.getX()) +
+              (_y - another.getY()) * (_y - another.getY()));
 }
 
 Circle::Circle(double x, double y, double radius) {
@@ -46,8 +52,8 @@ Point Circle::getCenter() const { return _center; }
 double Circle::getRadius() const { return _radius; }
 
 void Circle::setCenter(double x, double y) {
-  _center.setHorizontal(x);
-  _center.setVertical(y);
+  _center.setX(x);
+  _center.setY(y);
 }
 
 void Circle::setRadius(double radius) { _radius = radius; }
