@@ -33,7 +33,7 @@
 # *.exe
 *.out
 *.app
-# main
+main
 
 # Python
 __pycache__/
