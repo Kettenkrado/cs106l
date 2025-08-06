@@ -1,0 +1,3 @@
+[submodule "lectureCodes/cs106l-lecture-code"]
+	path = lectureCodes/cs106l-lecture-code
+	url = git@github.com:cs106l/cs106l-lecture-code.git
