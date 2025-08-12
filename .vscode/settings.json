@@ -79,7 +79,8 @@
     "span": "cpp",
     "chrono": "cpp",
     "ranges": "cpp",
-    "cinttypes": "cpp"
+    "cinttypes": "cpp",
+    "__config": "cpp"
   },
   "C_Cpp.errorSquiggles": "disabled",
   "cmake.ignoreCMakeListsMissing": true
